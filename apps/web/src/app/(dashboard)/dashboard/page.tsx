@@ -22,24 +22,21 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { requireUser } from "@/lib/auth";
-import {
-  getPortfoliosByUserId,
-  getResumesByUserId,
-  getCoverLettersByUserId,
-  getLinkedInProfileByUserId,
-  getSubscriptionByUserId,
-} from "@portfolio/db";
+
+export const dynamic = "force-dynamic";
 
 export default async function DashboardOverview() {
   const user = await requireUser();
 
+  const db = await import("@portfolio/db");
+
   const [portfolios, resumes, coverLetters, linkedInProfile, subscription] =
     await Promise.all([
-      getPortfoliosByUserId(user.id),
-      getResumesByUserId(user.id),
-      getCoverLettersByUserId(user.id),
-      getLinkedInProfileByUserId(user.id),
-      getSubscriptionByUserId(user.id),
+      db.getPortfoliosByUserId(user.id),
+      db.getResumesByUserId(user.id),
+      db.getCoverLettersByUserId(user.id),
+      db.getLinkedInProfileByUserId(user.id),
+      db.getSubscriptionByUserId(user.id),
     ]);
 
   const publishedPortfolios = portfolios.filter((p: any) => p.published);

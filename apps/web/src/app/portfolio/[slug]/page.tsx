@@ -1,13 +1,15 @@
-import { getPortfolioBySlug } from "@portfolio/db";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { PortfolioView } from "@/components/public/PortfolioView";
+
+export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: { slug: string };
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { getPortfolioBySlug } = await import("@portfolio/db");
   const portfolio = await getPortfolioBySlug(params.slug);
   if (!portfolio) {
     return { title: "Portfolio Not Found" };
@@ -38,6 +40,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function PublicPortfolioPage({ params }: PageProps) {
+  const { getPortfolioBySlug } = await import("@portfolio/db");
   const portfolio = await getPortfolioBySlug(params.slug);
   if (!portfolio || !portfolio.published) {
     notFound();

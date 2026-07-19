@@ -2,12 +2,14 @@
 const nextConfig = {
   transpilePackages: [
     "@portfolio/ui",
-    "@portfolio/db",
     "@react-three/drei",
     "@react-three/fiber",
     "@react-three/postprocessing",
     "three",
   ],
+  experimental: {
+    serverComponentsExternalPackages: ["@portfolio/db", "sql.js"],
+  },
   images: {
     domains: ["img.clerk.com"],
   },

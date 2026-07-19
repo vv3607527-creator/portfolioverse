@@ -9,3 +9,4 @@ dist/
 *.db-journal
 .turbo/
 .vercel
+.env*

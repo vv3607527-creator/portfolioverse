@@ -8,13 +8,13 @@ const nextConfig = {
     "three",
   ],
   experimental: {
-    serverComponentsExternalPackages: ["@portfolio/db", "sql.js"],
-  },
-  webpack: (config, { isServer }) => {
-    if (isServer) {
-      config.externals = [...config.externals, "sql.js"];
-    }
-    return config;
+    serverComponentsExternalPackages: ["@portfolio/db"],
+    outputFileTracingIncludes: {
+      "/**": [
+        "./node_modules/sql.js/dist/sql-wasm.js",
+        "./node_modules/sql.js/dist/sql-wasm.wasm",
+      ],
+    },
   },
   images: {
     domains: ["img.clerk.com"],

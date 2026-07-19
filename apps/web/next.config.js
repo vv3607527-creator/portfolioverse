@@ -8,17 +8,14 @@ const nextConfig = {
     "@react-three/postprocessing",
     "three",
   ],
-  experimental: {
-    serverComponentsExternalPackages: [],
-  },
   webpack: (config, { isServer }) => {
     if (isServer) {
       // Force sql.js to be treated as CommonJS (not ESM)
-      // sql.js has "exports" in package.json without a "require" condition,
-      // which makes webpack treat it as ESM, but the code uses module.exports
+      // sql.js has an "exports" field in package.json that makes webpack treat it as ESM,
+      // but its code uses module.exports which crashes when bundled as ESM
       config.module.rules.push({
-        test: /node_modules[\\/]\.pnpm[\\/]sql\.js@[^\\]+[\\/]node_modules[\\/]sql\.js[\\/]dist[\\/]sql-wasm\.js$/,
-        type: "javascript/dynamic",
+        test: /node_modules[\\/].*sql\.js[\\/].*sql-wasm\.js$/,
+        type: "javascript/auto",
       });
     }
     return config;
